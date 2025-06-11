@@ -76,7 +76,7 @@ export default function ProtestDetail({
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="flex flex-col gap-1">
-            <div className="flex ">
+            <div className="flex items-center">
               <div className="font-bold flex items-center">
                 <span className="text-lg shrink-0">위치</span>
                 <ChevronRightIcon className="size-4" />
