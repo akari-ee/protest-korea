@@ -1,10 +1,4 @@
-import { Geist } from "next/font/google";
 import localFont from "next/font/local";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const pretendard = localFont({
   src: [
@@ -56,4 +50,4 @@ const pretendard = localFont({
   ],
 });
 
-export { pretendard, geistSans };
+export { pretendard };
