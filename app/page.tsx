@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const { data: protests, error } = await supabase
@@ -33,6 +33,15 @@ export default async function Home() {
 
   return (
     <main className="grow py-6 container max-w-sm px-4 sm:max-w-5xl mx-auto">
+      <header className="rounded-md bg-gray-100 p-6 mb-4 font-medium text-sm border">
+        <span>
+          Protest Korea는 특정 정치적 세력과 전혀 연관이 없으며, 여러 곳에
+          퍼져있는 정보를 간편하게 모아보기 위해 제작되었습니다.{" "}
+        </span>
+        <span className="sm:block">
+          모든 집회 정보는 사용자들의 등록 요청으로 이루어집니다.
+        </span>
+      </header>
       <section>
         {(!protests || protests.length === 0) && <div>데이터가 없습니다.</div>}
         {protests && protests.length > 0 && (
