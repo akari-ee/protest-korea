@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 p-4 border-b bg-background z-50">
+    <header className="sticky top-10.5 p-4 border-b bg-background z-50">
       <nav className="flex justify-between items-center container max-w-sm sm:max-w-5xl mx-auto">
         <h1 className="font-bold text-2xl">
           <Link href="/">Protest-Korea</Link>

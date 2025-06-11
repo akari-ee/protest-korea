@@ -5,6 +5,7 @@ import { pretendard } from "@/config/font";
 import Footer from "@/components/common/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import Banner from "@/components/common/banner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.className}>
       <body className={`antialiased`}>
         <main className="w-dvw min-h-dvh relative flex flex-col">
+          <Banner />
           <Nav />
           <div className="flex-grow flex flex-col">{children}</div>
           <Footer />
