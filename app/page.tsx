@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const runtime = 'dynamic';
+
 export default async function Home() {
   const { data: protests, error } = await supabase
     .from("protest")
