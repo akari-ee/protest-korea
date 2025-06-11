@@ -1,7 +1,21 @@
 import ProtestItem from "@/components/protest/protest-item";
 import { supabase } from "@/config/client";
 import { Database } from "@/types/database.types";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "집회, 시위 일정 확인하기",
+  description: "집회, 시위 일정을 한눈에 확인할 수 있습니다.",
+  openGraph: {
+    title: "집회, 시위 일정 확인하기",
+    description: "집회, 시위 일정을 한눈에 확인할 수 있습니다.",
+    siteName: "집회, 시위 일정 확인하기",
+    locale: "ko_KR",
+    type: "website",
+    url: "https://protest-korea.vercel.app",
+  },
+};
 
 export default async function Home() {
   const { data: protests, error } = await supabase
