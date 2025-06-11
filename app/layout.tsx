@@ -4,6 +4,7 @@ import Nav from "@/components/common/nav";
 import { pretendard } from "@/config/font";
 import Footer from "@/components/common/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,6 +25,7 @@ export default function RootLayout({
           <Footer />
         </main>
         <Toaster position="bottom-center" richColors />
+        <Analytics />
       </body>
     </html>
   );
