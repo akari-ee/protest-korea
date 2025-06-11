@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/common/nav";
-// import { pretendard } from "@/config/font";
+import { pretendard } from "@/config/font";
 import Footer from "@/components/common/footer";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.className}>
       <body className={`antialiased`}>
         <main className="w-dvw min-h-dvh relative flex flex-col">
           <Nav />
