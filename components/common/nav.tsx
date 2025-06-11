@@ -7,7 +7,7 @@ export default function Nav() {
     <header className="sticky top-0 p-4 border-b bg-background z-50">
       <nav className="flex justify-between items-center container max-w-sm sm:max-w-5xl mx-auto">
         <h1 className="font-bold text-2xl">
-          <Link href="/">집회모아</Link>
+          <Link href="/">Protest-Korea</Link>
         </h1>
         <aside>
           <Button asChild variant={"ghost"} size={"sm"}>
