@@ -1,9 +1,12 @@
 import { format, differenceInCalendarDays } from "date-fns";
 import { ko } from "date-fns/locale";
+import { TZDate } from "@date-fns/tz";
 
 const formatKoreanDateTime = (datetime: string | null) => {
   if (!datetime) return null;
-  return format(new Date(datetime), "yyyy.MM.dd(eee) HH:mm", { locale: ko });
+  const timeZone = "Asia/Seoul";
+  const date = new TZDate(new Date(datetime), timeZone);
+  return format(date, "yyyy.MM.dd(eee) HH:mm", { locale: ko });
 };
 
 const formatDdayLabel = (startTime: string) => {
