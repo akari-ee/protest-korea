@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -10,7 +9,6 @@ import { toast } from "sonner";
 import { z } from "zod/v4";
 import { TZDate } from "@date-fns/tz";
 import { Database } from "@/types/database.types";
-import { id } from "date-fns/locale";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "집회명을 작성해 주세요." }),
