@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,11 @@ export default function LoginSection() {
   };
 
   const handleSignup = async () => {
+    if (!email || !password) {
+      toast.error("이메일과 비밀번호를 모두 입력해 주세요.");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -28,8 +34,6 @@ export default function LoginSection() {
         emailRedirectTo: undefined, // 이메일 확인 리디렉션 비활성화
       },
     });
-
-    console.log(data);
 
     if (error) {
       toast.error("가입 중 오류가 발생했습니다.", {
@@ -43,6 +47,11 @@ export default function LoginSection() {
   };
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      toast.error("이메일과 비밀번호를 모두 입력해 주세요.");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
