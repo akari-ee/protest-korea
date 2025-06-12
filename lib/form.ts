@@ -106,6 +106,7 @@ export const useProtestForm = () => {
       poster_image: poster_image
         ? `https://pub-1b6611ed726848ab9429e4d885b9bd05.r2.dev/${poster_image.name}`
         : null,
+      is_approved: true,
     });
 
     if (error) {

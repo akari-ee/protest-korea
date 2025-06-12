@@ -39,7 +39,7 @@ export default async function Home() {
           퍼져있는 정보를 간편하게 모아보기 위해 제작되었습니다.{" "}
         </span>
         <span className="sm:block">
-          모든 집회 정보는 사용자들의 등록 요청으로 이루어집니다.
+          모든 집회 정보는 사용자들의 자발적인 등록으로 이루어집니다.
         </span>
       </header>
       <section>

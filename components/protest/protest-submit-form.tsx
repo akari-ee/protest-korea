@@ -122,7 +122,7 @@ export default function ProtestSubmitForm() {
 
           <footer className="sticky bottom-0 bg-background py-4">
             <Button type="submit" className="w-full drop-shadow-md">
-              등록 요청하기
+              등록하기
             </Button>
           </footer>
         </form>
