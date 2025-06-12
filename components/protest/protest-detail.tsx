@@ -1,11 +1,14 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Database } from "@/types/database.types";
-import React from "react";
+import React, { useEffect } from "react";
 import { Badge } from "../ui/badge";
 import { formatDdayLabel, formatKoreanDateTime } from "@/lib/time";
 import ProtestMap from "./protest-map";
 import { ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProtestDetailProps {
   data: Database["public"]["Tables"]["protest"]["Row"];
@@ -24,8 +27,15 @@ export default function ProtestDetail({
     organizer,
     created_at,
     updated_at,
+    user_id,
   },
 }: ProtestDetailProps) {
+  const [userId, setUserId] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem("user_id"));
+  }, []);
+
   return (
     <section className="px-2">
       <header className="flex flex-col gap-4 border-b pb-6">
@@ -49,6 +59,16 @@ export default function ProtestDetail({
             <span>수정일: </span>
             <span>{formatKoreanDateTime(updated_at)}</span>
           </p>
+        </aside>
+        <aside className="text-right">
+          {userId && userId === user_id && (
+            <Link
+              href={`/protest/edit/${id}`}
+              className="underline text-sm text-gray-500"
+            >
+              수정하기
+            </Link>
+          )}
         </aside>
       </header>
       <article className="py-6 space-y-4">

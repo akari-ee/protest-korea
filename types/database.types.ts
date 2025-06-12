@@ -14,7 +14,7 @@ export type Database = {
           created_at: string | null
           description: string
           detail_location: string
-          end_time: string
+          end_time: string | null
           id: string
           is_approved: boolean | null
           location: string
@@ -23,12 +23,13 @@ export type Database = {
           start_time: string
           title: string
           updated_at: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
           description: string
           detail_location: string
-          end_time: string
+          end_time?: string | null
           id?: string
           is_approved?: boolean | null
           location: string
@@ -37,12 +38,13 @@ export type Database = {
           start_time: string
           title: string
           updated_at?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
           description?: string
           detail_location?: string
-          end_time?: string
+          end_time?: string | null
           id?: string
           is_approved?: boolean | null
           location?: string
@@ -51,6 +53,7 @@ export type Database = {
           start_time?: string
           title?: string
           updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }

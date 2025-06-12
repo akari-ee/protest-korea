@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import LoginButton from "./login-button";
 
 export default function Nav() {
   return (
@@ -9,7 +10,8 @@ export default function Nav() {
         <h1 className="font-bold text-2xl">
           <Link href="/">Protest-Korea</Link>
         </h1>
-        <aside>
+        <aside className="flex items-center gap-4">
+          <LoginButton />
           <Button asChild variant={"ghost"} size={"sm"}>
             <Link href={"/protest/add"}>집회 등록</Link>
           </Button>

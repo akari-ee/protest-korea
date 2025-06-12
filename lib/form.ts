@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -8,6 +9,8 @@ import { Control, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod/v4";
 import { TZDate } from "@date-fns/tz";
+import { Database } from "@/types/database.types";
+import { id } from "date-fns/locale";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "집회명을 작성해 주세요." }),
@@ -47,18 +50,28 @@ const formSchema = z.object({
 export type FormSchemaType = z.infer<typeof formSchema>;
 export type FormControlType = Control<z.infer<typeof formSchema>, any>;
 
-export const useProtestForm = () => {
+export interface ProtestSubmitFormProps {
+  data?: Database["public"]["Tables"]["protest"]["Row"];
+  isEdit?: boolean;
+}
+
+export const useProtestForm = ({
+  data,
+  isEdit,
+}: ProtestSubmitFormProps = {}) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      organizer: "",
+      title: data?.title ?? "",
+      description: data?.description ?? "",
+      organizer: data?.organizer ?? "",
       location: {
-        base: "",
-        detail: "",
+        base: data?.location ?? "",
+        detail: data?.detail_location ?? "",
       },
+      start_time: (data && data.start_time) ? new Date(data.start_time) : undefined,
+      end_time: (data && data.end_time) ? new Date(data.end_time) : undefined,
       poster_image: undefined,
     },
   });
@@ -74,6 +87,12 @@ export const useProtestForm = () => {
       end_time,
       poster_image,
     } = values;
+    const userId = localStorage.getItem("user_id");
+
+    if (!userId) {
+      toast.error("로그인 후 등록할 수 있습니다.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", poster_image as File);
@@ -95,37 +114,67 @@ export const useProtestForm = () => {
     const startTime = new TZDate(start_time);
     const endTime = end_time ? new TZDate(end_time) : null;
 
-    const { error } = await supabase.from("protest").insert({
-      title,
-      description,
-      organizer,
-      location: base,
-      detail_location: detail,
-      start_time: startTime,
-      end_time: endTime,
-      poster_image: poster_image
-        ? `https://pub-1b6611ed726848ab9429e4d885b9bd05.r2.dev/${poster_image.name}`
-        : null,
-      is_approved: true,
-    });
+    if (isEdit) {
+      const { data: updateResult, error } = await supabase
+        .from("protest")
+        .update({
+          title,
+          description,
+          organizer,
+          location: base,
+          detail_location: detail,
+          start_time: startTime,
+          end_time: endTime,
+          poster_image: poster_image
+            ? `https://pub-1b6611ed726848ab9429e4d885b9bd05.r2.dev/${poster_image.name}`
+            : null,
+          is_approved: true,
+        })
+        .eq("id", data?.id)
+        .select(); // 업데이트된 데이터를 반환받기
+      
+      console.log("업데이트 결과:", updateResult); // 빈 배열이면 매칭된 행이 없음
+      console.log("업데이트된 행 수:", updateResult?.length);
 
-    if (error) {
-      console.error(error);
-      toast.error("등록에 실패했습니다.", {
-        description: "잠시 후 다시 시도해 주세요.",
-      });
+      if (error) {
+        console.error(error);
+        toast.error("수정에 실패했습니다.", {
+          description: "잠시 후 다시 시도해 주세요.",
+        });
+      } else {
+        // 에러가 없으면 성공으로 처리
+        toast.success("수정했습니다.");
+        form.reset();
+        redirect("/");
+      }
     } else {
-      // 에러가 없으면 성공으로 처리
-      toast.success("등록을 요청했습니다.", {
-        description: "관리자 승인 후 등록됩니다.",
+      const { error } = await supabase.from("protest").insert({
+        title,
+        description,
+        organizer,
+        location: base,
+        detail_location: detail,
+        start_time: startTime,
+        end_time: endTime,
+        poster_image: poster_image
+          ? `https://pub-1b6611ed726848ab9429e4d885b9bd05.r2.dev/${poster_image.name}`
+          : null,
+        is_approved: true,
+        user_id: userId,
       });
-      form.reset();
-      redirect("/");
-    }
 
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+      if (error) {
+        console.error(error);
+        toast.error("등록에 실패했습니다.", {
+          description: "잠시 후 다시 시도해 주세요.",
+        });
+      } else {
+        // 에러가 없으면 성공으로 처리
+        toast.success("등록했습니다.");
+        form.reset();
+        redirect("/");
+      }
+    }
   }
 
   return { form, onSubmit };

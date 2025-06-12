@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -16,10 +17,24 @@ import { Textarea } from "../ui/textarea";
 import ProtestDatePicker from "./protest-date-picker";
 import { Button } from "../ui/button";
 import ProtestLocation from "./protest-location";
+import { Database } from "@/types/database.types";
 
-export default function ProtestSubmitForm() {
-  const { form, onSubmit } = useProtestForm();
-  
+interface ProtestSubmitFormProps {
+  data?: Database["public"]["Tables"]["protest"]["Row"];
+  isEdit?: boolean;
+}
+
+export default function ProtestSubmitForm({
+  data,
+  isEdit = false,
+}: ProtestSubmitFormProps) {
+  const { form, onSubmit } = useProtestForm({ data, isEdit });
+  const [isLogined, setIsLogined] = React.useState(false);
+
+  useEffect(() => {
+    setIsLogined(localStorage.getItem("user_id") ? true : false);
+  }, []);
+
   return (
     <section>
       <Form {...form}>
@@ -119,10 +134,17 @@ export default function ProtestSubmitForm() {
               type="end"
             />
           </div>
-
           <footer className="sticky bottom-0 bg-background py-4">
-            <Button type="submit" className="w-full drop-shadow-md">
-              등록하기
+            <Button
+              type="submit"
+              className="w-full drop-shadow-md"
+              disabled={!isLogined}
+            >
+              {isLogined
+                ? isEdit
+                  ? "수정하기"
+                  : "등록하기"
+                : "로그인 후 이용 가능합니다."}
             </Button>
           </footer>
         </form>
